@@ -51,22 +51,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 
 	private static final String POJO_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-			"<pojo>" +
+			"<org.sqlist.pojo>" +
 			"<foo>foofoo</foo>" +
 			"<bar>barbar</bar>" +
-			"</pojo>";
+			"</org.sqlist.pojo>";
 
 	private static final String POJO_CHILD =
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
 					"<root>" +
-					"<pojo>" +
+					"<org.sqlist.pojo>" +
 					"<foo>foo</foo>" +
 					"<bar>bar</bar>" +
-					"</pojo>" +
-					"<pojo>" +
+					"</org.sqlist.pojo>" +
+					"<org.sqlist.pojo>" +
 					"<foo>foofoo</foo>" +
 					"<bar>barbar</bar>" +
-					"</pojo>" +
+					"</org.sqlist.pojo>" +
 					"<root/>";
 
 	private static final Map<String, Object> HINTS = Collections.emptyMap();
@@ -94,19 +94,19 @@ public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void splitOneBranches() {
 		Flux<XMLEvent> xmlEvents = this.xmlEventDecoder.decode(toDataBufferMono(POJO_ROOT), null, null, HINTS);
-		Flux<List<XMLEvent>> result = this.decoder.split(xmlEvents, new QName("pojo"));
+		Flux<List<XMLEvent>> result = this.decoder.split(xmlEvents, new QName("org.sqlist.pojo"));
 
 		StepVerifier.create(result)
 				.consumeNextWith(events -> {
 					assertThat(events.size()).isEqualTo(8);
-					assertStartElement(events.get(0), "pojo");
+					assertStartElement(events.get(0), "org.sqlist.pojo");
 					assertStartElement(events.get(1), "foo");
 					assertCharacters(events.get(2), "foofoo");
 					assertEndElement(events.get(3), "foo");
 					assertStartElement(events.get(4), "bar");
 					assertCharacters(events.get(5), "barbar");
 					assertEndElement(events.get(6), "bar");
-					assertEndElement(events.get(7), "pojo");
+					assertEndElement(events.get(7), "org.sqlist.pojo");
 				})
 				.expectComplete()
 				.verify();
@@ -115,31 +115,31 @@ public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void splitMultipleBranches() {
 		Flux<XMLEvent> xmlEvents = this.xmlEventDecoder.decode(toDataBufferMono(POJO_CHILD), null, null, HINTS);
-		Flux<List<XMLEvent>> result = this.decoder.split(xmlEvents, new QName("pojo"));
+		Flux<List<XMLEvent>> result = this.decoder.split(xmlEvents, new QName("org.sqlist.pojo"));
 
 
 		StepVerifier.create(result)
 				.consumeNextWith(events -> {
 					assertThat(events.size()).isEqualTo(8);
-					assertStartElement(events.get(0), "pojo");
+					assertStartElement(events.get(0), "org.sqlist.pojo");
 					assertStartElement(events.get(1), "foo");
 					assertCharacters(events.get(2), "foo");
 					assertEndElement(events.get(3), "foo");
 					assertStartElement(events.get(4), "bar");
 					assertCharacters(events.get(5), "bar");
 					assertEndElement(events.get(6), "bar");
-					assertEndElement(events.get(7), "pojo");
+					assertEndElement(events.get(7), "org.sqlist.pojo");
 				})
 				.consumeNextWith(events -> {
 					assertThat(events.size()).isEqualTo(8);
-					assertStartElement(events.get(0), "pojo");
+					assertStartElement(events.get(0), "org.sqlist.pojo");
 					assertStartElement(events.get(1), "foo");
 					assertCharacters(events.get(2), "foofoo");
 					assertEndElement(events.get(3), "foo");
 					assertStartElement(events.get(4), "bar");
 					assertCharacters(events.get(5), "barbar");
 					assertEndElement(events.get(6), "bar");
-					assertEndElement(events.get(7), "pojo");
+					assertEndElement(events.get(7), "org.sqlist.pojo");
 				})
 				.expectComplete()
 				.verify();
@@ -209,7 +209,7 @@ public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void decodeError() {
 		Flux<DataBuffer> source = Flux.concat(
-				toDataBufferMono("<pojo>"),
+				toDataBufferMono("<org.sqlist.pojo>"),
 				Flux.error(new RuntimeException()));
 
 		Mono<Object> output = this.decoder.decodeToMono(source, ResolvableType.forClass(Pojo.class), null, HINTS);
@@ -230,8 +230,8 @@ public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 
 	@Test
 	public void toExpectedQName() {
-		assertThat(this.decoder.toQName(Pojo.class)).isEqualTo(new QName("pojo"));
-		assertThat(this.decoder.toQName(TypePojo.class)).isEqualTo(new QName("pojo"));
+		assertThat(this.decoder.toQName(Pojo.class)).isEqualTo(new QName("org.sqlist.pojo"));
+		assertThat(this.decoder.toQName(TypePojo.class)).isEqualTo(new QName("org.sqlist.pojo"));
 
 		assertThat(this.decoder.toQName(XmlRootElementWithNameAndNamespace.class)).isEqualTo(new QName("namespace", "name"));
 		assertThat(this.decoder.toQName(XmlRootElementWithName.class)).isEqualTo(new QName("namespace", "name"));
@@ -253,7 +253,7 @@ public class Jaxb2XmlDecoderTests extends AbstractLeakCheckingTests {
 	}
 
 
-	@jakarta.xml.bind.annotation.XmlType(name = "pojo")
+	@jakarta.xml.bind.annotation.XmlType(name = "org.sqlist.pojo")
 	public static class TypePojo {
 
 		private String foo;

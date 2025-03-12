@@ -72,7 +72,7 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 		testEncode(input, Pojo.class, step -> step
 				.consumeNextWith(
 						expectXml("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>" +
-								"<pojo><bar>barbar</bar><foo>foofoo</foo></pojo>"))
+								"<org.sqlist.pojo><bar>barbar</bar><foo>foofoo</foo></org.sqlist.pojo>"))
 				.verifyComplete());
 	}
 

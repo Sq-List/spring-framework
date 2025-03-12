@@ -237,6 +237,15 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {
 		return helper.replacePlaceholders(text, this::getPropertyAsRawString);
+		// 相当于 以下部分
+		/**
+		 * return helper.replacePlaceholders(text, new PropertyPlaceholderHelper.PlaceholderResolver() {
+		 *      @Override
+		 *      public String resolvePlaceholder(String placeholderName) {
+		 * 			return getPropertyAsRawString(placeholderName);
+		 *      }
+		 * });
+		 */
 	}
 
 	/**

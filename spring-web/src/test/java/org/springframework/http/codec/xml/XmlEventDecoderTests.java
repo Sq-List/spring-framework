@@ -38,10 +38,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 
 	private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-			"<pojo>" +
+			"<org.sqlist.pojo>" +
 			"<foo>foofoo</foo>" +
 			"<bar>barbar</bar>" +
-			"</pojo>";
+			"</org.sqlist.pojo>";
 
 	private XmlEventDecoder decoder = new XmlEventDecoder();
 
@@ -54,14 +54,14 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 
 		StepVerifier.create(events)
 				.consumeNextWith(e -> assertThat(e.isStartDocument()).isTrue())
-				.consumeNextWith(e -> assertStartElement(e, "pojo"))
+				.consumeNextWith(e -> assertStartElement(e, "org.sqlist.pojo"))
 				.consumeNextWith(e -> assertStartElement(e, "foo"))
 				.consumeNextWith(e -> assertCharacters(e, "foofoo"))
 				.consumeNextWith(e -> assertEndElement(e, "foo"))
 				.consumeNextWith(e -> assertStartElement(e, "bar"))
 				.consumeNextWith(e -> assertCharacters(e, "barbar"))
 				.consumeNextWith(e -> assertEndElement(e, "bar"))
-				.consumeNextWith(e -> assertEndElement(e, "pojo"))
+				.consumeNextWith(e -> assertEndElement(e, "org.sqlist.pojo"))
 				.expectComplete()
 				.verify();
 	}
@@ -75,14 +75,14 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 
 		StepVerifier.create(events)
 				.consumeNextWith(e -> assertThat(e.isStartDocument()).isTrue())
-				.consumeNextWith(e -> assertStartElement(e, "pojo"))
+				.consumeNextWith(e -> assertStartElement(e, "org.sqlist.pojo"))
 				.consumeNextWith(e -> assertStartElement(e, "foo"))
 				.consumeNextWith(e -> assertCharacters(e, "foofoo"))
 				.consumeNextWith(e -> assertEndElement(e, "foo"))
 				.consumeNextWith(e -> assertStartElement(e, "bar"))
 				.consumeNextWith(e -> assertCharacters(e, "barbar"))
 				.consumeNextWith(e -> assertEndElement(e, "bar"))
-				.consumeNextWith(e -> assertEndElement(e, "pojo"))
+				.consumeNextWith(e -> assertEndElement(e, "org.sqlist.pojo"))
 				.consumeNextWith(e -> assertThat(e.isEndDocument()).isTrue())
 				.expectComplete()
 				.verify();
@@ -94,14 +94,14 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 		this.decoder.setMaxInMemorySize(6);
 
 		Flux<String> source = Flux.just(
-				"<pojo>", "<foo>", "foofoo", "</foo>", "<bar>", "barbarbar", "</bar>", "</pojo>");
+				"<org.sqlist.pojo>", "<foo>", "foofoo", "</foo>", "<bar>", "barbarbar", "</bar>", "</org.sqlist.pojo>");
 
 		Flux<XMLEvent> events = this.decoder.decode(
 				source.map(this::stringBuffer), null, null, Collections.emptyMap());
 
 		StepVerifier.create(events)
 				.consumeNextWith(e -> assertThat(e.isStartDocument()).isTrue())
-				.consumeNextWith(e -> assertStartElement(e, "pojo"))
+				.consumeNextWith(e -> assertStartElement(e, "org.sqlist.pojo"))
 				.consumeNextWith(e -> assertStartElement(e, "foo"))
 				.consumeNextWith(e -> assertCharacters(e, "foofoo"))
 				.consumeNextWith(e -> assertEndElement(e, "foo"))
@@ -113,7 +113,7 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void decodeErrorAalto() {
 		Flux<DataBuffer> source = Flux.concat(
-				stringBufferMono("<pojo>"),
+				stringBufferMono("<org.sqlist.pojo>"),
 				Flux.error(new RuntimeException()));
 
 		Flux<XMLEvent> events =
@@ -121,7 +121,7 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 
 		StepVerifier.create(events)
 				.consumeNextWith(e -> assertThat(e.isStartDocument()).isTrue())
-				.consumeNextWith(e -> assertStartElement(e, "pojo"))
+				.consumeNextWith(e -> assertStartElement(e, "org.sqlist.pojo"))
 				.expectError(RuntimeException.class)
 				.verify();
 	}
@@ -131,7 +131,7 @@ public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 		decoder.useAalto = false;
 
 		Flux<DataBuffer> source = Flux.concat(
-				stringBufferMono("<pojo>"),
+				stringBufferMono("<org.sqlist.pojo>"),
 				Flux.error(new RuntimeException()));
 
 		Flux<XMLEvent> events =

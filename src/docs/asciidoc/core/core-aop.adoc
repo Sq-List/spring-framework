@@ -3117,7 +3117,7 @@ code snippet shows:
 If you invoke a method on an object reference, the method is invoked directly on
 that object reference, as the following image and listing show:
 
-image::images/aop-proxy-plain-pojo-call.png[]
+image::images/aop-proxy-plain-org.sqlist.pojo-call.png[]
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -3125,9 +3125,9 @@ image::images/aop-proxy-plain-pojo-call.png[]
 	public class Main {
 
 		public static void main(String[] args) {
-			Pojo pojo = new SimplePojo();
-			// this is a direct method call on the 'pojo' reference
-			pojo.foo();
+			Pojo org.sqlist.pojo = new SimplePojo();
+			// this is a direct method call on the 'org.sqlist.pojo' reference
+			org.sqlist.pojo.foo();
 		}
 	}
 ----
@@ -3135,9 +3135,9 @@ image::images/aop-proxy-plain-pojo-call.png[]
 .Kotlin
 ----
 	fun main() {
-		val pojo = SimplePojo()
-		// this is a direct method call on the 'pojo' reference
-		pojo.foo()
+		val org.sqlist.pojo = SimplePojo()
+		// this is a direct method call on the 'org.sqlist.pojo' reference
+		org.sqlist.pojo.foo()
 	}
 ----
 
@@ -3156,9 +3156,9 @@ image::images/aop-proxy-call.png[]
 			factory.addInterface(Pojo.class);
 			factory.addAdvice(new RetryAdvice());
 
-			Pojo pojo = (Pojo) factory.getProxy();
+			Pojo org.sqlist.pojo = (Pojo) factory.getProxy();
 			// this is a method call on the proxy!
-			pojo.foo();
+			org.sqlist.pojo.foo();
 		}
 	}
 ----
@@ -3170,9 +3170,9 @@ fun main() {
 	factory.addInterface(Pojo::class.java)
 	factory.addAdvice(RetryAdvice())
 
-	val pojo = factory.proxy as Pojo
+	val org.sqlist.pojo = factory.proxy as Pojo
 	// this is a method call on the proxy!
-	pojo.foo()
+	org.sqlist.pojo.foo()
 }
 ----
 
@@ -3240,9 +3240,9 @@ following example shows:
 			factory.addAdvice(new RetryAdvice());
 			factory.setExposeProxy(true);
 
-			Pojo pojo = (Pojo) factory.getProxy();
+			Pojo org.sqlist.pojo = (Pojo) factory.getProxy();
 			// this is a method call on the proxy!
-			pojo.foo();
+			org.sqlist.pojo.foo();
 		}
 	}
 ----
@@ -3255,9 +3255,9 @@ following example shows:
 		factory.addAdvice(RetryAdvice())
 		factory.isExposeProxy = true
 
-		val pojo = factory.proxy as Pojo
+		val org.sqlist.pojo = factory.proxy as Pojo
 		// this is a method call on the proxy!
-		pojo.foo()
+		org.sqlist.pojo.foo()
 	}
 ----
 

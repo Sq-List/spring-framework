@@ -113,7 +113,7 @@ class ModelAttributeMethodArgumentResolverTests {
 
 	@Test
 	void createAndBind() throws Exception {
-		testBindPojo("pojo", this.testMethod.annotPresent(ModelAttribute.class).arg(Pojo.class), value -> {
+		testBindPojo("org.sqlist.pojo", this.testMethod.annotPresent(ModelAttribute.class).arg(Pojo.class), value -> {
 			assertThat(value.getClass()).isEqualTo(Pojo.class);
 			return (Pojo) value;
 		});
@@ -208,12 +208,12 @@ class ModelAttributeMethodArgumentResolverTests {
 		this.bindContext.getModel().addAttribute(pojo);
 
 		MethodParameter parameter = this.testMethod.annotNotPresent(ModelAttribute.class).arg(Pojo.class);
-		testBindPojo("pojo", parameter, value -> {
+		testBindPojo("org.sqlist.pojo", parameter, value -> {
 			assertThat(value.getClass()).isEqualTo(Pojo.class);
 			return (Pojo) value;
 		});
 
-		assertThat(this.bindContext.getModel().asMap().get("pojo")).isSameAs(pojo);
+		assertThat(this.bindContext.getModel().asMap().get("org.sqlist.pojo")).isSameAs(pojo);
 	}
 
 	@Test
@@ -223,12 +223,12 @@ class ModelAttributeMethodArgumentResolverTests {
 		this.bindContext.getModel().addAttribute("pojoMono", Mono.just(pojo));
 
 		MethodParameter parameter = this.testMethod.annotNotPresent(ModelAttribute.class).arg(Pojo.class);
-		testBindPojo("pojo", parameter, value -> {
+		testBindPojo("org.sqlist.pojo", parameter, value -> {
 			assertThat(value.getClass()).isEqualTo(Pojo.class);
 			return (Pojo) value;
 		});
 
-		assertThat(this.bindContext.getModel().asMap().get("pojo")).isSameAs(pojo);
+		assertThat(this.bindContext.getModel().asMap().get("org.sqlist.pojo")).isSameAs(pojo);
 	}
 
 	@Test
@@ -238,12 +238,12 @@ class ModelAttributeMethodArgumentResolverTests {
 		this.bindContext.getModel().addAttribute("pojoSingle", Single.just(pojo));
 
 		MethodParameter parameter = this.testMethod.annotNotPresent(ModelAttribute.class).arg(Pojo.class);
-		testBindPojo("pojo", parameter, value -> {
+		testBindPojo("org.sqlist.pojo", parameter, value -> {
 			assertThat(value.getClass()).isEqualTo(Pojo.class);
 			return (Pojo) value;
 		});
 
-		assertThat(this.bindContext.getModel().asMap().get("pojo")).isSameAs(pojo);
+		assertThat(this.bindContext.getModel().asMap().get("org.sqlist.pojo")).isSameAs(pojo);
 	}
 
 	@Test

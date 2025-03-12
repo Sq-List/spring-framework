@@ -165,7 +165,7 @@ class WebClientIntegrationTests {
 				.setBody("{\"bar\":\"barbar\",\"foo\":\"foofoo\"}"));
 
 		Mono<Pojo> result = this.webClient.get()
-				.uri("/pojo")
+				.uri("/org.sqlist.pojo")
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.bodyToMono(Pojo.class);
@@ -177,7 +177,7 @@ class WebClientIntegrationTests {
 
 		expectRequestCount(1);
 		expectRequest(request -> {
-			assertThat(request.getPath()).isEqualTo("/pojo");
+			assertThat(request.getPath()).isEqualTo("/org.sqlist.pojo");
 			assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo("application/json");
 		});
 	}
@@ -674,7 +674,7 @@ class WebClientIntegrationTests {
 				.setBody("{\"bar\":\"BARBAR\",\"foo\":\"FOOFOO\"}"));
 
 		Mono<Pojo> result = this.webClient.post()
-				.uri("/pojo/capitalize")
+				.uri("/org.sqlist.pojo/capitalize")
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new Pojo("foofoo", "barbar"))
@@ -688,7 +688,7 @@ class WebClientIntegrationTests {
 
 		expectRequestCount(1);
 		expectRequest(request -> {
-			assertThat(request.getPath()).isEqualTo("/pojo/capitalize");
+			assertThat(request.getPath()).isEqualTo("/org.sqlist.pojo/capitalize");
 			assertThat(request.getBody().readUtf8()).isEqualTo("{\"foo\":\"foofoo\",\"bar\":\"barbar\"}");
 			assertThat(request.getHeader(HttpHeaders.CONTENT_LENGTH)).isEqualTo("31");
 			assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo("application/json");
